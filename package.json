@@ -1,9 +1,9 @@
 {
   "name": "ubii-web-target-publisher",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Publishes Inverse Kinematics targets to Ubi-Interact for physical embodiment",
   "main": "dist/index.js",
-  "types": "build/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --mode=development",

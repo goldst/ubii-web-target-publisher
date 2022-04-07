@@ -1,7 +1,7 @@
 import ProtobufLibrary from '@tum-far/ubii-msg-formats/dist/js/protobuf';
 import { UbiiClientService } from '@tum-far/ubii-node-webbrowser';
 import { PublisherOptions } from './PublisherOptions';
-import * as defaultTargets from './defaultTargets.json';
+import defaultTargets from './defaultTargets.json';
 
 /**
  * Main class of the target publishing module. Instantiating this class
