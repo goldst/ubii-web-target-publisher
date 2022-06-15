@@ -23,10 +23,10 @@ export class Publisher {
 
         // Set default values for all options that are not set
         this.options = {
-            urlServices: 'http://localhost:8102/services',
+            urlServices: 'http://localhost:8102/services/json',
             urlTopicData: 'ws://localhost:8104/topicdata',
             topic: '/avatar/ik_target',
-            useDevicePrefix: false,
+            useDevicePrefix: true,
             publishIntervalMs: 30,
             elementInput: () => this.defaultElementInput(),
             onTargetPublished: () => {/* do nothing */},
@@ -55,7 +55,6 @@ export class Publisher {
                 window.location.protocol.includes('https')
             );
             UbiiClientService.instance.setName('Web Target Publisher');
-            UbiiClientService.instance.setPublishIntervalMs(this.options.publishIntervalMs);
         }
 
         UbiiClientService.instance.connect(this.options.urlServices, this.options.urlTopicData);
@@ -142,18 +141,20 @@ export class Publisher {
      */
     private createUbiiSpecs()   {
         const clientId = UbiiClientService.instance.getClientID();
-        const deviceName = 'web-target-publisher';
-        const prefix = `/${clientId}/${deviceName}`;
 
         this.ubiiDevice = {
             clientId,
-            name: deviceName,
+            name: 'Web Physical Avatar - Body Tracking',
+            description: 'All components responsible for tracking user body.',
+            tags: ['body tracking'],
             deviceType: ProtobufLibrary.ubii.devices.Device.DeviceType.PARTICIPANT,
             components: [
                 {
-                    name: 'Inverse Kinematics targets',
+                    name: 'Web Physical Avatar - User IK Targets',
+                    description: 'Publishes IK Target Positions as Pose3D on individual topics for each target.',
+                    tags: ['avatar', 'user tracking', 'ik', 'targets', 'ik targets', 'inverse kinematics', 'web'],
                     ioType: ProtobufLibrary.ubii.devices.Component.IOType.PUBLISHER,
-                    topic: `${this.options.useDevicePrefix ? prefix : ''}${this.options.topic}`,
+                    topic: `${this.options.useDevicePrefix ? `/${clientId}` : ''}/avatar/ik_targets`,
                     messageFormat: 'ubii.dataStructure.Object3DList',
                 },
             ],
@@ -165,6 +166,9 @@ export class Publisher {
      * Disconnects Ubi-Interact
      */
     stop() {
+        if(!this.started || this.options.skipUbii) {
+            return;
+        }
         UbiiClientService.instance.disconnect();
     }
 }

@@ -12,7 +12,7 @@ import ProtobufLibrary from '@tum-far/ubii-msg-formats/dist/js/protobuf';
 export interface PublisherOptions {
     /**
      * The URL for the Ubi-Interact services endpoint. Defaults to
-     * 'http://localhost:8102/services' if not set. Value has no impact
+     * 'http://localhost:8102/services/json' if not set. Value has no impact
      * when {skipUbii} is true.
      */
     urlServices: string;

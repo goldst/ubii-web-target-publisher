@@ -30,7 +30,7 @@ class Publisher {
     constructor(options = {}) {
         this.started = false;
         // Set default values for all options that are not set
-        this.options = Object.assign({ urlServices: 'http://localhost:8102/services', urlTopicData: 'ws://localhost:8104/topicdata', topic: '/avatar/ik_target', useDevicePrefix: false, publishIntervalMs: 30, elementInput: () => this.defaultElementInput(), onTargetPublished: () => { }, configureInstance: true, skipUbii: false }, options);
+        this.options = Object.assign({ urlServices: 'http://localhost:8102/services/json', urlTopicData: 'ws://localhost:8104/topicdata', topic: '/avatar/ik_target', useDevicePrefix: true, publishIntervalMs: 30, elementInput: () => this.defaultElementInput(), onTargetPublished: () => { }, configureInstance: true, skipUbii: false }, options);
         // If Ubi-Interact won't be used, skip all remaining configuration and start instantly
         if (this.options.skipUbii) {
             this.start();
@@ -46,7 +46,6 @@ class Publisher {
         if (this.options.configureInstance) {
             ubii_node_webbrowser_1.UbiiClientService.instance.setHTTPS(window.location.protocol.includes('https'));
             ubii_node_webbrowser_1.UbiiClientService.instance.setName('Web Target Publisher');
-            ubii_node_webbrowser_1.UbiiClientService.instance.setPublishIntervalMs(this.options.publishIntervalMs);
         }
         ubii_node_webbrowser_1.UbiiClientService.instance.connect(this.options.urlServices, this.options.urlTopicData);
     }
@@ -115,17 +114,19 @@ class Publisher {
     createUbiiSpecs() {
         var _a;
         const clientId = ubii_node_webbrowser_1.UbiiClientService.instance.getClientID();
-        const deviceName = 'web-target-publisher';
-        const prefix = `/${clientId}/${deviceName}`;
         this.ubiiDevice = {
             clientId,
-            name: deviceName,
+            name: 'Web Physical Avatar - Body Tracking',
+            description: 'All components responsible for tracking user body.',
+            tags: ['body tracking'],
             deviceType: protobuf_1.default.ubii.devices.Device.DeviceType.PARTICIPANT,
             components: [
                 {
-                    name: 'Inverse Kinematics targets',
+                    name: 'Web Physical Avatar - User IK Targets',
+                    description: 'Publishes IK Target Positions as Pose3D on individual topics for each target.',
+                    tags: ['avatar', 'user tracking', 'ik', 'targets', 'ik targets', 'inverse kinematics', 'web'],
                     ioType: protobuf_1.default.ubii.devices.Component.IOType.PUBLISHER,
-                    topic: `${this.options.useDevicePrefix ? prefix : ''}${this.options.topic}`,
+                    topic: `${this.options.useDevicePrefix ? `/${clientId}` : ''}/avatar/ik_targets`,
                     messageFormat: 'ubii.dataStructure.Object3DList',
                 },
             ],
@@ -136,6 +137,9 @@ class Publisher {
      * Disconnects Ubi-Interact
      */
     stop() {
+        if (!this.started || this.options.skipUbii) {
+            return;
+        }
         ubii_node_webbrowser_1.UbiiClientService.instance.disconnect();
     }
 }

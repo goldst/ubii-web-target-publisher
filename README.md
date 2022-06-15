@@ -10,7 +10,7 @@ To receive the published targets, another Ubi-Interact component is required. [u
 This project communicates with a [Ubi-Interact master node](https://github.com/SandroWeber/ubii-node-master). Even though some of the functionality can be tested without it, it is recommended to have one.
 
 ### Online Demo
-The demo in this project is available at https://goldst.dev/ubii-web-target-publisher/dist/.
+The demo in this project is available at https://goldst.dev/ubii-web-target-publisher/.
 
 ### Running the demo locally
 After cloning, install, and run the project:
@@ -44,15 +44,7 @@ new Publisher(options);
 
 For available options, see [PublisherOptions.ts](./src/PublisherOptions.ts).
 
-That's it! Other than supplying the options, no further configuration is necessary. If you want to stop the publisher, just call `stop()` on the publisher object.
-
-## Development status and contributing
-This project is work in progress. Let me know if you have any issues! Currently I'm not taking code contributions, because it is part of an university project. I am planing to open it up in June.
-
-<!-- TODO replace section once bachelors thesis is finished>
-
-Don't expect me to update this project that much once it's done :upside_down_face: but your code and documentation contributions are warmly welcomed. Make sure to create an issue first if you want to work on something and let me know there.
-<-->
+That's it! Other than supplying the options, no further configuration is necessary. If You want to stop the publisher, just call `stop()` on the publisher object.
 
 ## License
 [MIT](LICENSE)
