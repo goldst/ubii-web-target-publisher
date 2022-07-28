@@ -1,4 +1,4 @@
-# ubii-web-target-publisher – Work in progress
+# ubii-web-target-publisher
 Ubi-Interact target publisher for web browsers. The target publisher can be used to send tracked user pose data. This is a necessary step in physical embodiment scenarios, where users are represented virtually through a physical avatar.
 
 ## Usage
